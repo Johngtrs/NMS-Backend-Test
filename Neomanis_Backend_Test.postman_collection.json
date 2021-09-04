@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "c08c8359-9cf6-412e-bdd5-45dae68fc218",
+		"name": "Neomanis_Backend_Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/v1/movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/12",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/top100/:year",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/top100/2018",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"top100",
+						"2018"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/top100",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/top100",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"top100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/most_rented/:year",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/most_rented/2017",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"most_rented",
+						"2017"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/most_rented",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/most_rented",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"most_rented"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/best_author",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/best_author",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"best_author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/search/:title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/search/la%20belle",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"search",
+						"la%20belle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"year\": 2018,\r\n    \"rent_number\": 50,\r\n    \"title\": \"Bienvenue chez John\",\r\n    \"author\": \"Noname\",\r\n    \"editor\": \"Super editeur\",\r\n    \"index\": \"P BIEN\",\r\n    \"bib\": \"CABANIS\",\r\n    \"ref\": \"2021\",\r\n    \"cat1\": \"P BIEN\",\r\n    \"cat2\": \"DVDFIC\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}v1/movies",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/movies/increment_rented",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Bienvenue à Marly-Gomont\",\r\n    \"year\": \"2017\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}v1/movies/increment_rented",
+					"host": [
+						"{{baseUrl}}v1"
+					],
+					"path": [
+						"movies",
+						"increment_rented"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "a3c98dac818215a07f65e00053c7a06e57123f50efedea2dbd6466727c0f6041",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/"
+		}
+	]
+}
