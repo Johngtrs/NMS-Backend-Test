@@ -1,9 +1,9 @@
 import { CreateMovieDTO } from "../dtos/create.movie.dto";
-import { PatchMovieDTO } from "../dtos/patch.movie.dto";
-import { PutMovieDTO } from "../dtos/put.movie.dto";
+import { MovieDTO } from "../dtos/movie.dto";
 import { DatabaseConfig } from "../../common/db"
 import debug from "debug";
 import { HttpError } from "../../common/http.error";
+import * as mysql from 'mysql2/promise';
 
 const log: debug.IDebugger = debug('app:movie-dao');
 const db = DatabaseConfig.getInstance().db();
@@ -15,65 +15,71 @@ class MovieDAO {
     }
 
     public async getMovies() {
-        const results = await db.query("SELECT * FROM movie");
-        return results[0];
+        const [rows] = await db.query<MovieDTO[]>("SELECT * FROM movie");
+        return rows;
     }
 
-   /* public async getMovieById(id: number) {
-        const result = await db.query("SELECT * FROM movie WHERE id=?", id);
-        if (!result[0][0]) {
-            throw response.error(404, "Movie not found");
+    public async getMovieById(id: string) {
+       const [rows] = await db.query<MovieDTO[]>("SELECT * FROM movie WHERE id=?", id);
+        if (!rows[0]) {
+            throw new HttpError(404, "Movie not found");
         }
-        return result[0][0];
+        return rows[0];
     }
-    
-    async function mostRented(cols = "*", year, limit = 1) {
-        let results;
+
+    private async mostRented(year: string, cols: string = "*", limit: number = 1): Promise<string | MovieDTO | MovieDTO[]>  {
+        let rows: MovieDTO[];
         if (year) {
-            results = await db.query("SELECT " + cols + " FROM movie WHERE annee=? ORDER BY nbre_de_prets DESC LIMIT " + limit, year);
+            const select = "SELECT " + cols + " FROM movie WHERE annee=? ORDER BY nbre_de_prets DESC LIMIT " + limit;
+            [rows] = await db.query<MovieDTO[]>(select, year);
         } else {
-            results = await db.query("SELECT " + cols + " FROM movie ORDER BY nbre_de_prets DESC LIMIT " + limit);
+            const select = "SELECT " + cols + " FROM movie ORDER BY nbre_de_prets DESC LIMIT " + limit;
+            [rows] = await db.query<MovieDTO[]>(select);
         }
-        return limit > 1 ? results[0] : results[0][0];
+        return limit > 1 ? rows : rows[0];
     }
-    
-    exports.mostRented = async function (cols, year, limit) {
-        return await mostRented(cols, year, limit);
+
+    public async getTop100(year: string) {
+        return await this.mostRented(year, "*", 100);
     }
-    
-    exports.titleSearch = async function (title) {
-        
-        const results = await db.query("SELECT * FROM movie WHERE titre LIKE ?", "%" + title + "%");
-        return results[0];
+
+    public async getMostRented(year: string) {
+        return await this.mostRented(year);
     }
-    
-    exports.incrementRentedNumber = async function (title, year) {
-        if (!title || !year) {
-            throw response.error(400, "title and year are required");
-        }
-    
+
+    public async getBestAuthor() {
+        return await this.mostRented("", "auteur as author");
+    }
+
+    public async getMovieByTitle(title: string) {
+        const [rows] = await db.query<MovieDTO[]>("SELECT * FROM movie WHERE titre LIKE ?", "%" + title + "%");
+        return rows;
+    }
+
+    public async addMovie(movie: CreateMovieDTO) {
+        const insert = "INSERT INTO movie(annee, nbre_de_prets, titre, auteur, editeur, indice, bib, cote, cat_1, cat_2) " + 
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const binds = [
+            movie.year, movie.rent_number, movie.title, 
+            movie.author, movie.editor, movie.index, 
+            movie.bib, movie.ref, movie.cat1, movie.cat2
+        ];
+
+        const [newMovie] = await db.query<mysql.ResultSetHeader>(insert, binds);
+        return newMovie.insertId;
+    }
+
+    public async incrementRentedNumber(title: string, year: string) {  
         // Check if the movie exists
-        const [rows] = await db.query("SELECT COUNT(*) AS total FROM movie WHERE titre=? AND annee=?", [title, year]);
+        const select = "SELECT COUNT(*) AS total FROM movie WHERE titre=? AND annee=?";
+        const [rows] = await db.query<mysql.RowDataPacket[]>(select, [title, year]);
         if (rows[0].total < 1) {
-            throw response.error(404, "Movie not found");
+            throw new HttpError(404, "Movie not found");
         }
     
-        await db.query("UPDATE movie SET nbre_de_prets = nbre_de_prets + 1 WHERE titre=? AND annee=?",
-            [title, year]);
+        const update = "UPDATE movie SET nbre_de_prets = nbre_de_prets + 1 WHERE titre=? AND annee=?";
+        await db.query<mysql.ResultSetHeader>(update, [title, year]);
     }
-    
-    exports.create = async function(body) {
-        const errors = validations.valid(body);
-        if (!tools.isEmpty(errors)) {
-            throw response.error(400, "Invalid parameters", errors);
-        }
-    
-        const newMovie = await db.query("INSERT INTO movie(annee, nbre_de_prets, titre, auteur, editeur, indice, bib, cote, cat_1, cat_2) " + 
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-        [body.year, body.rent_number, body.title, body.author, body.editor, body.index, body.bib, body.ref, body.cat1, body.cat2]);
-        
-        return newMovie[0].insertId;
-    }*/
 }
 
 export default new MovieDAO();

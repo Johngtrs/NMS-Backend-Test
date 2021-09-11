@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 
 routes.push(new MovieRoutesV1(app));
 
+// Handle errors
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err instanceof HttpError) {
         res.status(err.status).json({error: err.message});
