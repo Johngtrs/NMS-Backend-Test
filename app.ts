@@ -8,6 +8,7 @@ import debug from 'debug';
 import { RoutesConfig } from "./v1/common/routes.config";
 import { MovieRoutesV1 } from "./v1/movies/movie.routes.v1";
 import { HttpError } from "./v1/common/http.error";
+import { Tools } from "./tools";
 
 const app: express.Application = express();
 const port = process.env.NODE_DOCKER_PORT;
@@ -44,9 +45,9 @@ app.use((req, res, next) => {
 
 
 // Trimmer
-/*app.use(function (req, res, next) {
-    tools.trimAll(req, res, next);
-});*/
+app.use((req, res, next) => {
+    Tools.trimAll(req, res, next);
+});
 
 routes.push(new MovieRoutesV1(app));
 

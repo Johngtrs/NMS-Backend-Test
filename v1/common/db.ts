@@ -17,10 +17,10 @@ export class DatabaseConfig {
     }
 
     public static getInstance(): DatabaseConfig{
-        if (!DatabaseConfig.instance) {
-            DatabaseConfig.instance = new DatabaseConfig();
+        if (!this.instance) {
+            this.instance = new DatabaseConfig();
         }
-        return DatabaseConfig.instance;
+        return this.instance;
     }
 
     public db(): Pool {

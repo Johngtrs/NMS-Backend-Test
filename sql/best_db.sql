@@ -31,15 +31,15 @@ CREATE TABLE `movie` (
   `id` int(11) NOT NULL,
   `annee` year(4) NOT NULL,
   `nbre_de_prets` int(11) NOT NULL DEFAULT '0',
-  `titre` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `auteur` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `editeur` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `indice` varchar(125) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `bib` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `cote` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `cat_1` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `cat_2` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `titre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `auteur` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `editeur` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `indice` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `bib` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cote` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cat_1` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cat_2` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `movie`

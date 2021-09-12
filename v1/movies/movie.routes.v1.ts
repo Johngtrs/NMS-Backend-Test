@@ -1,6 +1,7 @@
 import { RoutesConfig } from "../common/routes.config";
 import express from "express";
 import movieController from "./controllers/movie.controller";
+import movieMiddleware from "./middlewares/movie.middleware";
 
 export class MovieRoutesV1 extends RoutesConfig {
     public constructor(app: express.Application) {
@@ -10,7 +11,7 @@ export class MovieRoutesV1 extends RoutesConfig {
     protected configureRoutes(): express.Application {
         this.app.route(RoutesConfig.version + "/movies")
             .get(movieController.getListMovies)
-            .post(movieController.createMovie);
+            .post(movieMiddleware.postValidation, movieController.createMovie);
 
         this.app.route(RoutesConfig.version + "/movies/top100")
             .get(movieController.getTop100);
@@ -34,7 +35,7 @@ export class MovieRoutesV1 extends RoutesConfig {
             .get(movieController.getMovieById);
 
         this.app.route(RoutesConfig.version + "/movies/increment_rented")
-            .patch(movieController.incrementRentedNumber);
+            .patch(movieMiddleware.patchRentedNumberValidation, movieController.incrementRentedNumber);
             
         return this.app;
     }
